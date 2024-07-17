@@ -17,14 +17,42 @@ const slides = [
 	}
 ]
 
+const dots = document.querySelector(".dots")
+
+for (let i = 0; i < slides.length; i++) {
+	let dotSpan = document.createElement("span")
+	dotSpan.classList.add("dot")
+	dots.appendChild(dotSpan)
+}
 
 const sliderArrows = document.querySelectorAll(".arrow")
+let dotItem = document.querySelectorAll(".dot")
+dotItem[0].classList.add("dot_selected")
+
+let currentImg = document.querySelector(".banner-img")
+let currentTxt = document.querySelector(".banner-txt")
+let currentId = 0
 
 for (let i = 0; i < sliderArrows.length; i++) {
 	let arrowClicked = sliderArrows[i]
-	console.log(arrowClicked)
-
+	
 	arrowClicked.addEventListener("click", (event) => {
-		console.log(event.currentTarget.id)
+
+		if (event.currentTarget.id === "sliderPrev") {
+			dotItem[currentId].classList.remove("dot_selected")
+			currentId--
+			console.log(currentId)
+			currentImg.src = `./assets/images/slideshow/${slides[currentId].image}`
+			currentTxt.innerHTML = slides[currentId].tagLine
+			dotItem[currentId].classList.add("dot_selected")
+		} else {
+			dotItem[currentId].classList.remove("dot_selected")
+			currentId++
+			console.log(currentId)
+			currentImg.src = `./assets/images/slideshow/${slides[currentId].image}`
+			currentTxt.innerHTML = slides[currentId].tagLine
+			dotItem[currentId].classList.add("dot_selected")
+		}
+
 	})
 }
