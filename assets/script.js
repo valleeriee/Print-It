@@ -17,42 +17,53 @@ const slides = [
 	}
 ]
 
-const dots = document.querySelector(".dots")
+// affichage des bullet points
+function createDots() {
+	const dots = document.querySelector(".dots")
 
-for (let i = 0; i < slides.length; i++) {
-	let dotSpan = document.createElement("span")
-	dotSpan.classList.add("dot")
-	dots.appendChild(dotSpan)
+	for (let i = 0; i < slides.length; i++) {
+		let dotSpan = document.createElement("span")
+		dotSpan.classList.add("dot")
+		dots.appendChild(dotSpan)
+	}
 }
 
-const sliderArrows = document.querySelectorAll(".arrow")
-let dotItem = document.querySelectorAll(".dot")
-dotItem[0].classList.add("dot_selected")
+// slider
+function sliderImages() {
+	createDots()
 
-let currentImg = document.querySelector(".banner-img")
-let currentTxt = document.querySelector(".banner-txt")
-let currentId = 0
+	const sliderArrows = document.querySelectorAll(".arrow")
+	let dotItem = document.querySelectorAll(".dot")
+	dotItem[0].classList.add("dot_selected")
 
-for (let i = 0; i < sliderArrows.length; i++) {
-	let arrowClicked = sliderArrows[i]
-	
-	arrowClicked.addEventListener("click", (event) => {
+	let currentImg = document.querySelector(".banner-img")
+	let currentTxt = document.querySelector(".banner-txt")
+	let currentId = 0
 
-		if (event.currentTarget.id === "sliderPrev") {
+	for (let i = 0; i < sliderArrows.length; i++) {
+		let arrowClicked = sliderArrows[i]
+		
+		arrowClicked.addEventListener("click", (event) => {
 			dotItem[currentId].classList.remove("dot_selected")
-			currentId--
-			console.log(currentId)
+			if (event.currentTarget.id === "sliderPrev") {
+				if (currentId === 0) {
+					currentId = 3
+				} else {
+					currentId--
+				}
+			} else {
+				if (currentId === 3) {
+					currentId = 0
+				} else {
+					currentId++
+				}
+			}
 			currentImg.src = `./assets/images/slideshow/${slides[currentId].image}`
 			currentTxt.innerHTML = slides[currentId].tagLine
 			dotItem[currentId].classList.add("dot_selected")
-		} else {
-			dotItem[currentId].classList.remove("dot_selected")
-			currentId++
-			console.log(currentId)
-			currentImg.src = `./assets/images/slideshow/${slides[currentId].image}`
-			currentTxt.innerHTML = slides[currentId].tagLine
-			dotItem[currentId].classList.add("dot_selected")
-		}
 
-	})
+			console.log(currentId)
+		})
+	}
 }
+
